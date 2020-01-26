@@ -1,16 +1,22 @@
 # makefile for BME680
 
-all: bme680_main.o bme680.o
-	gcc -o bme680 bme680_main.o bme680.o
+all: main.o bme680_controller.o bme680.o mqtt.o
+	gcc -o main main.o bme680_controller.o bme680.o mqtt.o -lpaho-mqtt3c
 
-bme680_main.o: bme680_main.c bme680.h 
-	gcc -c bme680_main.c
+main.o: main.c  
+	gcc -c main.c
+
+bme680_controller.o: bme680_controller.c  
+	gcc -c bme680_controller.c
 
 bme680.o: bme680.c bme680.h bme680_defs.h
 	gcc -c bme680.c
+	
+mqtt.o: mqtt.c
+	gcc -c mqtt.c 
 
 clean:
-	rm bme680_main.o bme680
+	rm bme680_controller.o bme680
 
 
 

@@ -9,7 +9,8 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include "bme680.h"
-// bme680 3 1000 logs.txt
+
+
 int i2cHandler;
 // open I2C Bus
 void i2cOpen()
@@ -102,5 +103,4 @@ void write2file(char *outputFile, struct tm tm, struct bme680_field_data data)
 	
 	}
 }
-
 

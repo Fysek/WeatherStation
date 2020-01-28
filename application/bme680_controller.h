@@ -8,8 +8,8 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <math.h>
 #include "bme680.h"
-// bme680 3 1000 logs.txt
 
 // I2C handler
 void i2cOpen();

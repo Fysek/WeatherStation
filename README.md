@@ -1,5 +1,10 @@
 # WeatherStation
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/29653491/100155476-a229da00-2ea7-11eb-971e-46b5950a9ea2.PNG">
+</p>
+
 <!-- ABOUT THE PROJECT -->
+
 ## About the project
 The weather station is one of the most popular IoT projects with which electronics fans begin their adventure with Raspberry Pi, sensors, data transfer and their visualization. In this article, we'll look at monitoring temperature, humidity, barometric pressure, and air quality with a universal sensor that connects directly to your Raspberry Pi without additional components. The big advantage of this application is that it does not require a lot of experience in electronics and programming, and it introduces many useful issues. In this project, we will additionally implement a database for storing readings along with the Grafana GUI to view the current readings.
 

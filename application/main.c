@@ -40,9 +40,6 @@ int main(int argc, char *argv[]){
         printf("Failed to connect, return code %d\n", rc);
         exit(-1);
     }
-    //create device
-    //publish(client, "BME680", CLIENTID);
- 
 	
 	// open I2C 
 	i2cOpen();
@@ -125,13 +122,13 @@ int main(int argc, char *argv[]){
 			publish(client, "home/bme680/pressure", res);
 			gcvt(data.humidity / 1000.0f, 4, res);
 			publish(client, "home/bme680/humidity", res);
-			gcvt(data.gas_resistance, 6, res);
+			gcvt(data.gas_resistance/ 1000.0f, 5, res);
 			publish(client, "home/bme680/gas_resistance", res);
 	
 			printf("%d-%02d-%02d %02d:%02d:%02d ", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
 			printf("T: %.2f degC, P: %.2f hPa, H: %.2f %%rH", data.temperature / 100.0f,
 					data.pressure / 100.0f, data.humidity / 1000.0f );
-			printf(", G: %d Ohms", data.gas_resistance);
+			printf(", G: %.2f kOhms", data.gas_resistance/ 1000.0f);
 			printf("\r\n");
 			write2file(outputFile, tm, data);	
 		} else {

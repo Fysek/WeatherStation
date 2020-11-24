@@ -1,7 +1,7 @@
 # makefile for BME680
 
 all: main.o bme680_controller.o bme680.o mqtt.o
-	gcc -o main main.o bme680_controller.o bme680.o mqtt.o -lpaho-mqtt3c
+	gcc -o WeatherStation main.o bme680_controller.o bme680.o mqtt.o -lpaho-mqtt3c
 
 main.o: main.c  
 	gcc -c main.c

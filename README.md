@@ -38,6 +38,14 @@ The MQTT protocol provides a lightweight method of messaging using the publish-s
 
 To build the project with the MQTT client, we need to download the library from git and install it. For this we execute six commands in the terminal:
 
+Install prerequisites:
+```sh
+sudo apt-get install build-essential gcc make cmake cmake-gui cmake-curses-gui
+sudo apt-get install fakeroot devscripts dh-make lsb-release
+sudo apt-get install libssl-dev
+```
+
+Then get the source:
 ```sh
 git clone https://github.com/eclipse/paho.mqtt.c.git
 cd paho.mqtt.c

@@ -124,7 +124,7 @@ The program starts by connecting to the broker with a given IP address and the w
 We run the program with the command:
 ```sh
 pip3 install paho-mqtt
-pip3 install influxdb-client
+pip3 install influxdb
 
 python3 forwarder.py
 ```

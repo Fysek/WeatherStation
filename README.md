@@ -122,8 +122,11 @@ Now that influxdb is up and running, we need to write a little script that passe
 The program starts by connecting to the broker with a given IP address and the weather_stations database in InfluxDB. The client created in this way subscribes to the given topics and listens for messages in these topics. If it receives measurements by a broker, it calls a function (callback), which formats the data and sends it to the database. The program runs in an endless loop and should be turned off when finished.
 
 We run the program with the command:
-```sh 
-python forwarder.py
+```sh
+pip3 install paho-mqtt
+pip3 install influxdb-client
+
+python3 forwarder.py
 ```
 
 ### Grafana installation and configuration

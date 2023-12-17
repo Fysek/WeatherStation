@@ -3,9 +3,26 @@
 #include "bme680_defs.h"
 #include "mqtt.h"
 
-#define ADDRESS     	"192.168.12.16"
+#define ADDRESS     	"127.0.0.1"
 #define CLIENTID    	"Raspberry Pi 4B"
 #define BME680_I2C_ADDR 0x76
+#define DAY_SECONDS     86400
+
+
+float calculate_average(float baseline_gas_data[], int size) {
+    float sum = 0.0;
+    int i;
+
+    // Calculate sum of all elements in the array
+    for (i = 0; i < size; ++i) {
+        sum += baseline_gas_data[i];
+    }
+
+    // Calculate the average
+    float average = sum / size;
+
+    return average;
+}
 
 int main(int argc, char *argv[]){
 	int delay, nMeas;
@@ -100,11 +117,22 @@ int main(int argc, char *argv[]){
     struct bme680_field_data data;
 
 	struct tm tm = *localtime(&t);
-	
-	int i=0;
+	int idx=0;
 	char res[20]; 
+	
+	//IAQ
+	int idx_reset = DAY_SECONDS / delay;
+	float baseline_gas_data[50];
+	int data_count = 0;
+	float hum, gas, air_quality_score;
+	float hum_offset, gas_offset;
+	float hum_score, gas_score;
+	float gas_baseline = 50000;
+	float hum_baseline = 40.0;
+    float hum_weighting = 0.25;
+	
 
-	while(i<nMeas) {
+	while(1) {
 
 		// Get sensor data
 		rslt = bme680_get_sensor_data(&data, &Sensor);
@@ -122,20 +150,59 @@ int main(int argc, char *argv[]){
 			publish(client, "home/bme680/pressure", res);
 			gcvt(data.humidity / 1000.0f, 4, res);
 			publish(client, "home/bme680/humidity", res);
+			hum = data.humidity / 1000.0f;
 			gcvt(data.gas_resistance/ 1000.0f, 5, res);
 			publish(client, "home/bme680/gas_resistance", res);
+			gas = data.gas_resistance; // must be in clear values, no kohms
 	
+
+			if (idx >= 50){
+				gas_baseline = calculate_average(baseline_gas_data, 50);
+			} else {
+				baseline_gas_data[idx] = gas;
+			}
+	
+			hum_offset = hum - hum_baseline;
+			gas_offset = gas_baseline - gas;
+
+            if (hum_offset > 0) {
+                hum_score = (100 - hum_baseline - hum_offset) /
+                            (100 - hum_baseline) * (hum_weighting * 100);
+            } else {
+                hum_score = (hum_baseline + hum_offset) /
+                            hum_baseline * (hum_weighting * 100);
+            }
+
+            if (gas_offset > 0) {
+                gas_score = (gas / gas_baseline) * (100 - (hum_weighting * 100));
+            } else {
+                gas_score = 100 - (hum_weighting * 100);
+            }
+
+            air_quality_score = hum_score + gas_score;	
+			gcvt(air_quality_score, 3, res);
+			publish(client, "home/bme680/air_quality", res);
+
+			/*
 			printf("%d-%02d-%02d %02d:%02d:%02d ", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
 			printf("T: %.2f degC, P: %.2f hPa, H: %.2f %%rH", data.temperature / 100.0f,
 					data.pressure / 100.0f, data.humidity / 1000.0f );
 			printf(", G: %.2f kOhms", data.gas_resistance/ 1000.0f);
+			printf(", IAQ: %.1f ", air_quality_score);
 			printf("\r\n");
-			write2file(outputFile, tm, data);	
+			*/
+
+			write2file(outputFile, tm, data);
+			if (idx == idx_reset) { 
+				idx = 0; //reset index to get gas_baseline again after a day
+			} else {
+				idx++;
+			}
 		} else {
 			//When setup unstable, add measurement
 			nMeas++;
 		}
-		i++;
+		
 		// Trigger next meausurement
 		rslt = bme680_set_sensor_mode(&Sensor); 
 

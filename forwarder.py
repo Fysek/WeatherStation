@@ -8,6 +8,7 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe("home/bme680/humidity");
     client.subscribe("home/bme680/pressure");
     client.subscribe("home/bme680/gas_resistance");
+    client.subscribe("home/bme680/air_quality");
     print("Forwarder is running, do not close the application!")
     
 
@@ -79,6 +80,23 @@ def on_message_from_bme680_gas_resistance(client, userdata, msg):
     influx_client.write_points(json_body)
 
 
+def on_message_from_bme680_IAQ(client, userdata, msg):
+    current_time = datetime.datetime.utcnow().isoformat()
+    json_body = [
+    {
+        "measurement": "air_quality",
+        "tags": {
+            "host": "bme680",
+        },
+        "time": current_time,
+        "fields": {
+            "value": float(msg.payload)
+        }
+    }
+    ]
+    influx_client.write_points(json_body)
+
+
 influx_client = InfluxDBClient('localhost', 8086, database='weather_stations')
 client = mqtt.Client("forwarder")
 client.on_connect = on_connect
@@ -86,7 +104,8 @@ client.message_callback_add("home/bme680/temperature", on_message_from_bme680_te
 client.message_callback_add("home/bme680/humidity", on_message_from_bme680_humidity)
 client.message_callback_add("home/bme680/pressure", on_message_from_bme680_pressure)
 client.message_callback_add("home/bme680/gas_resistance", on_message_from_bme680_gas_resistance)
+client.message_callback_add("home/bme680/air_quality", on_message_from_bme680_IAQ)
 
-client.connect("192.168.12.16", 1883, 60)
+client.connect("127.0.0.1", 1883, 60)
 
 client.loop_forever()

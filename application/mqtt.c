@@ -9,7 +9,7 @@ void publish(MQTTClient client, char* topic, char* payload) {
     MQTTClient_deliveryToken token;
     MQTTClient_publishMessage(client, topic, &pubmsg, &token);
     MQTTClient_waitForCompletion(client, token, 1000L);
-    printf("Message '%s' with delivery token %d delivered\n", payload, token);
+    //printf("Message '%s' with delivery token %d delivered\n", payload, token);
 }
 
 int on_message(void *context, char *topicName, int topicLen, MQTTClient_message *message) {

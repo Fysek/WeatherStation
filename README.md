@@ -14,10 +14,10 @@
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#prerequisites">MQTT Installation</a></li>
-        <li><a href="#prerequisites">Installation and configuration of InfluxDB</a></li>
-        <li><a href="#prerequisites">Uploading measurements to the database</a></li>
-        <li><a href="#prerequisites">Grafana installation and configuration</a></li>
+        <li><a href="#mqtt">MQTT Installation</a></li>
+        <li><a href="#influxdb">Installation and configuration of InfluxDB</a></li>
+        <li><a href="#forwarder">Uploading measurements to the database</a></li>
+        <li><a href="#grafana">Grafana installation and configuration</a></li>
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
@@ -58,6 +58,7 @@ The sensor is connected to the Raspberry Pi using four wires:
 | SCL1 I2C  | SCL  |
 | Ground	  | GND  |
 
+<!-- MQTT -->
 ### MQTT Installation
 The MQTT protocol provides a lightweight method of messaging using the publish-subscribe model. This makes it suitable for transmitting messages from devices such as low-power sensors or mobile devices such as a smartphone or a microcontroller.
 
@@ -102,6 +103,7 @@ The arguments in this command mean:
 - The second number indicates the number of measurements,
 - The third argument is the name of the log file.
 
+<!--INFLUXDB-->
 ### Installation and configuration of InfluxDB
 In the application, I use InfluxDB to store data as it is optimized for time series data. Of course, it would also be possible to work with other databases like MariaDB or mongoDB, but InfluxDB works directly with Grafana. The first thing to do is install InfluxDB on your Raspberry Pi. Installation is fairly easy, you just need to execute the following two commands in the terminal:
 ```sh
@@ -141,6 +143,7 @@ CREATE USER mqtt WITH PASSWORD 'mqtt'
 GRANT ALL ON weather_stations TO mqtt
 ```
 
+<!-- FORWARDER -->
 ### Uploading measurements to the database
 Now that influxdb is up and running, we need to write a little script that passes the data from the broker to InfluxDB. Python was used for this task, which, using the paho mqtt library, saves the measurements coming to the broker in the database. The file was named forwarder.py and can be found in the WeatherStation root directory.
 
@@ -154,6 +157,7 @@ pip3 install influxdb
 python3 forwarder.py
 ```
 
+<!-- GRAFANA -->
 ### Grafana installation and configuration
 To install Grafana, we must first check the latest version in the browser: https://github.com/grafana/grafana/releases. At the moment the latest version is 6.6.0. We put the version number in the command to download and install:
 ```sh 

@@ -3,8 +3,31 @@
   <img src="https://user-images.githubusercontent.com/29653491/100155476-a229da00-2ea7-11eb-971e-46b5950a9ea2.PNG">
 </p>
 
-<!-- ABOUT THE PROJECT -->
 
+<!-- TABLE OF CONTENTS -->
+<details open="open">
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">MQTT Installation</a></li>
+        <li><a href="#prerequisites">Installation and configuration of InfluxDB</a></li>
+        <li><a href="#prerequisites">Uploading measurements to the database</a></li>
+        <li><a href="#prerequisites">Grafana installation and configuration</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgements">Acknowledgements</a></li>
+  </ol>
+</details>
+
+<!-- ABOUT THE PROJECT -->
 ## About the project
 The weather station is one of the most popular IoT projects with which electronics fans begin their adventure with Raspberry Pi, sensors, data transfer and their visualization. In this article, we'll look at monitoring temperature, humidity, barometric pressure, and air quality with a universal sensor that connects directly to your Raspberry Pi without additional components. The big advantage of this application is that it does not require a lot of experience in electronics and programming, and it introduces many useful issues. In this project, we will additionally implement a database for storing readings along with the Grafana GUI to view the current readings.
 
@@ -18,15 +41,6 @@ In the app I use the IP address: 192.168.12.16 which is the address of my Raspbe
 * [InfluxDB](https://www.influxdata.com/)
 * [C]()
 * [Python]()
-
-### TODO
-
-- [ ] Add requirements.txt for python
-- [ ] Create a linux service to run the app in the background
-- [ ] Add .gitignore
-- [ ] Clean the code, make it more readable
-- [ ] Add debug mode
-
 
 
 <!-- GETTING STARTED -->
@@ -158,3 +172,34 @@ At the first launch, a login window pops up: The default username and password i
 Now it's time to choose your data source. We choose InfluxDB. The most important fields are the name of the source, URL, the name of the database we are using, and the user name and password. We save the settings and proceed to creating the panel.
 
 In the repository there is the GrafanaWeatherStationJson file, which contains information about the panel.
+
+### TODO
+
+- [ ] Add requirements.txt for python
+- [ ] Create a linux service to run the app in the background
+- [ ] Add .gitignore
+- [ ] Clean the code, make it more readable
+- [ ] Add debug mode
+
+
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+<!-- CONTACT -->
+## Contact
+
+Mateusz Dyrdol - [@Mateusz Dyrdol](https://www.linkedin.com/in/mateusz-dyrdol/) - mateusz.dyrdol@gmail.com
+
+Project Link: [https://github.com/Fysek/ArchSound/](https://github.com/Fysek/ArchSound/)
+
+<!-- ACKNOWLEDGEMENTS -->
+## Acknowledgements
+* [Adafruit MCP3008 github](https://github.com/adafruit/Adafruit_CircuitPython_MCP3xxx)
+* [Analog Inputs using MCP3008](https://learn.adafruit.com/reading-a-analog-in-and-controlling-audio-volume-with-the-raspberry-pi)
+* [Multiple MCP3008](https://www.raspberrypi.org/forums/viewtopic.php?t=210330)
+* [Pymixer - playing multiple sounds at once](https://classes.engineering.wustl.edu/ese205/core/index.php?title=Playing_multiple_sounds_at_once)
+* [Raspberry Pi Multiple SPIs](https://blog.stabel.family/raspberry-pi-4-multiple-spis-and-the-device-tree/)
+* [Raspberry Pi Pinout](https://pinout.xyz/pinout/spi)
+* [Ultraflat Potentiometer Membrane](https://www.vishay.com/sensors/list/product-32537/)

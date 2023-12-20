@@ -16,6 +16,17 @@ In the app I use the IP address: 192.168.12.16 which is the address of my Raspbe
 * [MQTT](https://mqtt.org)
 * [Grafana](https://grafana.com/)
 * [InfluxDB](https://www.influxdata.com/)
+* [C]()
+* [Python]()
+
+### TODO
+
+- [ ] Add requirements.txt for python
+- [ ] Create a linux service to run the app in the background
+- [ ] Add .gitignore
+- [ ] Clean the code, make it more readable
+- [ ] Add debug mode
+
 
 
 <!-- GETTING STARTED -->

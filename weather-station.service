@@ -1,0 +1,15 @@
+[Unit]
+Description=Service for weather station with bme680
+After=network.target
+
+[Service]
+Type=simple
+ExecStartPre=/bin/bash -c 'sudo service mosquitto status && sudo service influxdb status && sudo service grafana-server status'
+ExecStart=/bin/bash -c 'python3 /path/to/forwarder.py & ./path/to/WeatherStation 5 1000 logs.txt &'
+Restart=on-failure
+RestartSec=3
+User=your_username
+Group=your_group
+
+[Install]
+WantedBy=multi-user.target
